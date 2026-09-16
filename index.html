@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가나다의 소개 페이지 | Welcome! 😎</title>
+  <!-- 웹 폰트 (Pretendard, Outfit) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. 디자인 시스템 & 테마 변수
+       ========================================================================== */
+    :root {
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+      --football-green: #10b981;
+
+      /* 라이트 모드 변수 */
+      --bg-gradient: linear-gradient(135deg, #f0f4fd 0%, #e2e8f0 100%);
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(255, 255, 255, 0.6);
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+      --card-shadow-hover: 0 20px 35px -5px rgba(59, 130, 246, 0.15), 0 8px 12px -2px rgba(0, 0, 0, 0.05);
+
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --text-sub: #94a3b8;
+
+      --badge-bg: rgba(59, 130, 246, 0.1);
+      --badge-text: #2563eb;
+      --quote-bg: rgba(241, 245, 249, 0.8);
+      --quote-border: #3b82f6;
+      --nav-bg: rgba(255, 255, 255, 0.7);
+      --transition-speed: 0.3s;
+    }
+
+    [data-theme="dark"] {
+      /* 다크 모드 변수 */
+      --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+      --card-shadow-hover: 0 20px 35px -5px rgba(59, 130, 246, 0.25), 0 8px 12px -2px rgba(0, 0, 0, 0.2);
+
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-sub: #64748b;
+
+      --badge-bg: rgba(59, 130, 246, 0.25);
+      --badge-text: #93c5fd;
+      --quote-bg: rgba(15, 23, 42, 0.6);
+      --quote-border: #60a5fa;
+      --nav-bg: rgba(15, 23, 42, 0.75);
+    }
+
+    /* ==========================================================================
+       2. 기본 리셋
+       ========================================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+    }
+
+    /* 배경 장식 원형 블러 */
+    .bg-decoration {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.45;
+      pointer-events: none;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .shape-1 {
+      width: 400px;
+      height: 400px;
+      background: #60a5fa;
+      top: -100px;
+      left: -100px;
+    }
+
+    .shape-2 {
+      width: 450px;
+      height: 450px;
+      background: #818cf8;
+      bottom: 10%;
+      right: -100px;
+      animation-delay: -5s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(40px) scale(1.08); }
+      100% { transform: translateY(-30px) scale(0.95); }
+    }
+
+    /* ==========================================================================
+       3. 상단 헤더
+       ========================================================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      transition: background var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .logo-emoji {
+      font-size: 1.5rem;
+    }
+
+    .logo-text {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .light-icon { display: block; font-size: 1.2rem; }
+    .dark-icon { display: none; font-size: 1.2rem; }
+
+    [data-theme="dark"] .light-icon { display: none; }
+    [data-theme="dark"] .dark-icon { display: block; }
+
+    /* ==========================================================================
+       4. 메인 컨테이너
+       ========================================================================== */
+    .container {
+      max-width: 860px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+      flex: 1;
+    }
+
+    /* 프로필 카드 */
+    .profile-card {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    }
+
+    .profile-card:hover {
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      box-shadow: 0 12px 25px rgba(59, 130, 246, 0.35);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 4px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .avatar:hover {
+      transform: scale(1.1) rotate(6deg);
+    }
+
+    .avatar:active {
+      transform: scale(0.95);
+    }
+
+    .status-badge {
+      position: absolute;
+      bottom: 0;
+      right: -5px;
+      background: #10b981;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+    }
+
+    .nickname {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      color: var(--text-main);
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .bio {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 1.75rem auto;
+    }
+
+    .badges-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .badge:hover {
+      transform: translateY(-2px);
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* ==========================================================================
+       5. 상세 정보 그리드 카드
+       ========================================================================== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .card.full-width {
+      grid-column: span 2;
+    }
+
+    .card-icon-wrapper {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--primary-color);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      font-size: 0.96rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .quote-box {
+      background: var(--quote-bg);
+      border-left: 4px solid var(--quote-border);
+      padding: 1rem 1.25rem;
+      border-radius: 0 12px 12px 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+
+    /* 버튼 및 점수표 */
+    .interactive-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    .action-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .action-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+    }
+
+    .action-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    .action-btn.secondary {
+      background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+    }
+
+    .action-btn.secondary:hover {
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .score-display {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .score-display strong {
+      color: var(--football-green);
+      font-size: 1.15rem;
+    }
+
+    /* 파티클 애니메이션 */
+    .particle-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .floating-particle {
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+      animation: particleFly 1.2s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+    }
+
+    @keyframes particleFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      50% {
+        opacity: 0.9;
+        transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(180deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), calc(var(--dy) + 50px)) scale(0.8) rotate(360deg);
+      }
+    }
+
+    /* 푸터 */
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      margin-top: auto;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 680px) {
+      .header { padding: 0.85rem 1.25rem; }
+      .container { margin: 1.5rem auto; padding: 0 1rem; }
+      .profile-card { padding: 2.2rem 1.25rem; border-radius: 20px; }
+      .nickname { font-size: 1.85rem; }
+      .tagline { font-size: 1rem; }
+      .bio { font-size: 0.95rem; }
+      .info-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .card.full-width { grid-column: span 1; }
+      .card { padding: 1.5rem; border-radius: 18px; }
+      .interactive-box { flex-direction: column; align-items: stretch; }
+      .action-btn { justify-content: center; }
+      .score-display { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 배경 장식 요소 -->
+  <div class="bg-decoration shape-1"></div>
+  <div class="bg-decoration shape-2"></div>
+
+  <!-- 상단 네비게이션 -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-emoji">😎</span>
+      <span class="logo-text">가나다.me</span>
+    </div>
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="테마 전환" title="테마 변경">
+        <span class="theme-icon light-icon">☀️</span>
+        <span class="theme-icon dark-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <main class="container">
+    <!-- 프로필 히어로 카드 -->
+    <section class="profile-card">
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar" id="main-emoji" title="클릭해보세요!">
+            😎
+          </div>
+          <span class="status-badge" title="현재 상태">ACTIVE</span>
+        </div>
+      </div>
+
+      <div class="profile-body">
+        <h1 class="nickname">가나다</h1>
+        <p class="tagline">"오늘 하루도 쿨하고 즐겁게! ✨"</p>
+        <p class="bio">
+          안녕하세요! 항상 활기차고 긍정적인 에너지를 좋아하는 <strong>가나다</strong>입니다.<br>
+          재미있는 일과 새로운 도전을 즐기며 하루하루를 채워가고 있어요.
+        </p>
+
+        <div class="badges-row">
+          <span class="badge">🔥 열정 가득</span>
+          <span class="badge">⚡ 긍정 마인드</span>
+          <span class="badge">⚽ 그라운드의 지배자</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 세부 소개 카드 그리드 -->
+    <section class="info-grid">
+      <!-- 취미 카드 (축구) -->
+      <div class="card hobby-card">
+        <div class="card-icon-wrapper">
+          <span class="card-icon">⚽</span>
+        </div>
+        <div class="card-content">
+          <div class="card-label">MY HOBBY</div>
+          <h2 class="card-title">축구 (Football)</h2>
+          <p class="card-desc">
+            주말마다 푸른 잔디 위를 뛰며 땀 흘리는 것을 제일 좋아합니다.
+            환상적인 패스와 시원한 골 한 방이면 모든 스트레스가 싹 풀려요!
+          </p>
+          <div class="interactive-box">
+            <button id="kick-btn" class="action-btn">
+              <span>골대로 슛! ⚽💨</span>
+            </button>
+            <span id="score-counter" class="score-display">득점: <strong>0</strong> 골</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 좋아하는 이모지 카드 -->
+      <div class="card emoji-card">
+        <div class="card-icon-wrapper">
+          <span class="card-icon">😎</span>
+        </div>
+        <div class="card-content">
+          <div class="card-label">FAVORITE EMOJI</div>
+          <h2 class="card-title">선글라스 낀 스마일</h2>
+          <p class="card-desc">
+            언제나 여유롭고 쿨한 무드를 잃지 말자는 마음가짐!
+            저를 가장 잘 표현하는 대표 시그니처 이모지입니다.
+          </p>
+          <div class="interactive-box">
+            <button id="party-btn" class="action-btn secondary">
+              <span>쿨 에너지 충전하기 ✨</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TMI / 한 줄 생각 카드 -->
+      <div class="card about-card full-width">
+        <div class="card-icon-wrapper">
+          <span class="card-icon">💡</span>
+        </div>
+        <div class="card-content">
+          <div class="card-label">FAVORITE QUOTE</div>
+          <h2 class="card-title">가나다의 플레이리스트 & 모토</h2>
+          <blockquote class="quote-box">
+            “공은 둥글고, 기회는 뛰는 사람에게 찾아온다!”
+          </blockquote>
+          <p class="card-desc">
+            방문해 주셔서 감사합니다. 기분 좋은 하루 보내세요! 🎉
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 파티클 컨테이너 -->
+  <div id="particle-container" class="particle-container"></div>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <p>© 2026 가나다. Made with passion & 😎</p>
+  </footer>
+
+  <!-- 인라인 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. 테마 토글 (다크 / 라이트 모드)
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const htmlElement = document.documentElement;
+
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (savedTheme) {
+        htmlElement.setAttribute('data-theme', savedTheme);
+      } else if (systemPrefersDark) {
+        htmlElement.setAttribute('data-theme', 'dark');
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        htmlElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+
+        themeToggleBtn.style.transform = 'rotate(180deg) scale(1.1)';
+        setTimeout(() => {
+          themeToggleBtn.style.transform = '';
+        }, 300);
+      });
+
+      // 2. 파티클 이펙트 생성 함수
+      const particleContainer = document.getElementById('particle-container');
+
+      function spawnParticles(x, y, emojiList, count = 8) {
+        for (let i = 0; i < count; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'floating-particle';
+          particle.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          particle.style.fontSize = `${Math.floor(Math.random() * 16 + 20)}px`;
+
+          const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5);
+          const distance = Math.floor(Math.random() * 80 + 70);
+          const dx = Math.cos(angle) * distance;
+          const dy = Math.sin(angle) * distance;
+
+          particle.style.setProperty('--dx', `${dx}px`);
+          particle.style.setProperty('--dy', `${dy}px`);
+
+          particleContainer.appendChild(particle);
+
+          setTimeout(() => {
+            particle.remove();
+          }, 1200);
+        }
+      }
+
+      // 3. 메인 이모지 (😎) 클릭 인터랙션
+      const mainEmoji = document.getElementById('main-emoji');
+      if (mainEmoji) {
+        mainEmoji.addEventListener('click', () => {
+          const rect = mainEmoji.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+
+          spawnParticles(centerX, centerY, ['😎', '✨', '🌟', '🕶️', '⚡'], 10);
+
+          mainEmoji.style.transition = 'transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          mainEmoji.style.transform = 'scale(1.3) rotate(15deg)';
+          setTimeout(() => {
+            mainEmoji.style.transform = '';
+          }, 200);
+        });
+      }
+
+      // 4. 쿨 에너지 충전 버튼 (#party-btn) 클릭
+      const partyBtn = document.getElementById('party-btn');
+      if (partyBtn) {
+        partyBtn.addEventListener('click', () => {
+          const rect = partyBtn.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+
+          spawnParticles(centerX, centerY, ['😎', '🔥', '💖', '✨', '🌈'], 12);
+
+          partyBtn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            partyBtn.style.transform = '';
+          }, 150);
+        });
+      }
+
+      // 5. 축구 슛 인터랙션 (#kick-btn)
+      const kickBtn = document.getElementById('kick-btn');
+      const scoreCounter = document.getElementById('score-counter');
+      let score = 0;
+
+      if (kickBtn && scoreCounter) {
+        kickBtn.addEventListener('click', () => {
+          score += 1;
+          const scoreStrong = scoreCounter.querySelector('strong');
+          if (scoreStrong) {
+            scoreStrong.textContent = score;
+          }
+
+          const rect = kickBtn.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+
+          spawnParticles(centerX, centerY, ['⚽', '🥅', '🔥', '🎉', '🏆'], 10);
+
+          kickBtn.style.transform = 'scale(1.08) rotate(-3deg)';
+          setTimeout(() => {
+            kickBtn.style.transform = '';
+          }, 180);
+
+          scoreCounter.style.transition = 'transform 0.2s ease, color 0.2s ease';
+          scoreCounter.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            scoreCounter.style.transform = 'scale(1)';
+          }, 200);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
